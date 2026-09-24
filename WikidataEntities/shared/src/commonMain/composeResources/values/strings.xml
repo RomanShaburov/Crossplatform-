@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Сущности Wikidata</string>
+    <string name="list_title">Каталог Wikidata</string>
+    <string name="details_title">Детали сущности</string>
+    <string name="back_button">Назад</string>
+    <string name="label_id">ID</string>
+    <string name="label_type">Тип</string>
+    <string name="label_description">Описание</string>
+    <string name="error_not_found">Сущность не найдена</string>
+</resources>

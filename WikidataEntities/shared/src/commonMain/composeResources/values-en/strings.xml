@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Wikidata Entities</string>
+    <string name="list_title">Wikidata Catalog</string>
+    <string name="details_title">Entity Details</string>
+    <string name="back_button">Back</string>
+    <string name="label_id">ID</string>
+    <string name="label_type">Type</string>
+    <string name="label_description">Description</string>
+    <string name="error_not_found">Entity not found</string>
+</resources>
