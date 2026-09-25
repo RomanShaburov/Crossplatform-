@@ -31,11 +31,8 @@ fun EntityListScreen(
                 actions = {
                     TextButton(onClick = onToggleTheme) {
                         Text(
-                            text = if (language == "ru") {
-                                if (isDark) "Темная" else "Светлая"
-                            } else {
-                                if (isDark) "Dark" else "Light"
-                            },
+                            text = stringResource(if (isDark) Res.string.theme_dark else Res.string.theme_light),
+
                             style = MaterialTheme.typography.titleMedium
                         )
                     }
