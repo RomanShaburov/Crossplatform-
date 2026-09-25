@@ -1,49 +1,49 @@
 package org.example.project
 
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.safeContentPadding
-import androidx.compose.material3.Button
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
+import androidx.compose.runtime.saveable.listSaver
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
-import org.jetbrains.compose.resources.painterResource
-
-import wikidataentities.shared.generated.resources.Res
-import wikidataentities.shared.generated.resources.compose_multiplatform
+import androidx.lifecycle.viewmodel.compose.viewModel
+import org.example.project.ui.WikidataViewModel
+import org.example.project.ui.navigation.AppRoute
+import org.example.project.ui.navigation.WikidataNavHost
+import org.example.project.ui.theme.AppTheme
 
 @Composable
-@Preview
 fun App() {
-    MaterialTheme {
-        var showContent by remember { mutableStateOf(false) }
-        Column(
-            modifier = Modifier
-                .background(MaterialTheme.colorScheme.primaryContainer)
-                .safeContentPadding()
-                .fillMaxSize(),
-            horizontalAlignment = Alignment.CenterHorizontally,
-        ) {
-            Button(onClick = { showContent = !showContent }) {
-                Text("Click me!")
+    var isDark by rememberSaveable { mutableStateOf(false) }
+    var language by rememberSaveable { mutableStateOf("ru") }
+
+    LaunchedEffect(language) {
+        changeLanguageAtRuntime(language)
+    }
+
+    key(language) {
+        AppTheme(darkTheme = isDark) {
+            val viewModel: WikidataViewModel = viewModel { WikidataViewModel() }
+            val entities by viewModel.entities.collectAsState()
+            
+            val backStack = rememberSaveable(
+                saver = listSaver(
+                    save = { it.toList() },
+                    restore = { mutableStateListOf(*it.toTypedArray()) }
+                )
+            ) { 
+                mutableStateListOf<AppRoute>(AppRoute.EntityList) 
             }
-            AnimatedVisibility(showContent) {
-                val greeting = remember { Greeting().greet() }
-                Column(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                ) {
-                    Image(painterResource(Res.drawable.compose_multiplatform), null)
-                    Text("Compose: $greeting")
-                }
-            }
+
+            WikidataNavHost(
+                backStack = backStack,
+                entities = entities,
+                getEntity = { id -> viewModel.getEntity(id) },
+                isDark = isDark,
+                onToggleTheme = { isDark = !isDark },
+                language = language,
+                onToggleLanguage = { language = if (language == "ru") "en" else "ru" },
+                modifier = Modifier.fillMaxSize()
+            )
         }
     }
 }
