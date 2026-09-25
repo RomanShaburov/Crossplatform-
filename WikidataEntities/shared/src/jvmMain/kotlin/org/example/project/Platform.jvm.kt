@@ -9,5 +9,5 @@ class JVMPlatform: Platform {
 actual fun getPlatform(): Platform = JVMPlatform()
 
 actual fun changeLanguageAtRuntime(lang: String) {
-    Locale.setDefault(Locale(lang))
+    Locale.setDefault(Locale.forLanguageTag(lang))
 }

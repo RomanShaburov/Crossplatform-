@@ -11,9 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import org.example.project.domain.model.WikidataEntity
 import org.jetbrains.compose.resources.stringResource
-import wikidataentities.shared.generated.resources.Res
-import wikidataentities.shared.generated.resources.list_title
-import wikidataentities.shared.generated.resources.label_id
+import wikidataentities.shared.generated.resources.*
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -31,11 +29,21 @@ fun EntityListScreen(
             TopAppBar(
                 title = { Text(stringResource(Res.string.list_title)) },
                 actions = {
-                    IconButton(onClick = onToggleTheme) {
-                        Text(if (isDark) "☀️" else "🌙")
+                    TextButton(onClick = onToggleTheme) {
+                        Text(
+                            text = if (language == "ru") {
+                                if (isDark) "Темная" else "Светлая"
+                            } else {
+                                if (isDark) "Dark" else "Light"
+                            },
+                            style = MaterialTheme.typography.titleMedium
+                        )
                     }
                     TextButton(onClick = onToggleLanguage) {
-                        Text(language.uppercase())
+                        Text(
+                            text = stringResource(if (language == "ru") Res.string.lang_ru else Res.string.lang_en),
+                            style = MaterialTheme.typography.titleMedium
+                        )
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
@@ -48,14 +56,14 @@ fun EntityListScreen(
     ) { paddingValues ->
         LazyColumn(
             contentPadding = paddingValues,
-            modifier = Modifier.fillMaxSize()
+            verticalArrangement = Arrangement.spacedBy(16.dp),
+            modifier = Modifier.fillMaxSize().padding(horizontal = 16.dp, vertical = 8.dp)
         ) {
             items(entities) { entity ->
                 EntityListItem(
                     entity = entity,
                     onClick = { onEntityClick(entity.id) }
                 )
-                HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant)
             }
         }
     }
@@ -67,32 +75,35 @@ fun EntityListItem(
     onClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    Row(
+    ElevatedCard(
+        elevation = CardDefaults.elevatedCardElevation(defaultElevation = 5.dp),
+        colors = CardDefaults.elevatedCardColors(
+            containerColor = MaterialTheme.colorScheme.surface
+        ),
         modifier = modifier
             .fillMaxWidth()
             .clickable(onClick = onClick)
-            .padding(16.dp),
-        verticalAlignment = Alignment.CenterVertically
     ) {
-        Column(modifier = Modifier.weight(1f)) {
-            Text(
-                text = entity.label,
-                style = MaterialTheme.typography.titleMedium,
-                color = MaterialTheme.colorScheme.onSurface
-            )
-            Spacer(modifier = Modifier.height(4.dp))
-            Text(
-                text = entity.description,
-                style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
-                maxLines = 2
-            )
-            Spacer(modifier = Modifier.height(4.dp))
-            Text(
-                text = "${stringResource(Res.string.label_id)}: ${entity.id}",
-                style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.secondary
-            )
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Column(modifier = Modifier.weight(1f)) {
+                Text(
+                    text = entity.label,
+                    style = MaterialTheme.typography.titleLarge,
+                    color = MaterialTheme.colorScheme.primary
+                )
+                Spacer(modifier = Modifier.height(4.dp))
+                Text(
+                    text = entity.description,
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    maxLines = 2
+                )
+            }
         }
     }
 }

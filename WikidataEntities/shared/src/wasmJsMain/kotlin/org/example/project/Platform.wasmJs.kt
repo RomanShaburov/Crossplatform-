@@ -7,5 +7,4 @@ class WasmPlatform : Platform {
 actual fun getPlatform(): Platform = WasmPlatform()
 
 actual fun changeLanguageAtRuntime(lang: String) {
-    // На Wasm пока оставляем заглушку для автономного каркаса
 }

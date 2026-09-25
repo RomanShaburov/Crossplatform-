@@ -10,6 +10,5 @@ class AndroidPlatform : Platform {
 actual fun getPlatform(): Platform = AndroidPlatform()
 
 actual fun changeLanguageAtRuntime(lang: String) {
-    val locale = Locale(lang)
-    Locale.setDefault(locale)
+    Locale.setDefault(Locale.forLanguageTag(lang))
 }

@@ -3,8 +3,14 @@
     <string name="list_title">Wikidata Catalog</string>
     <string name="details_title">Entity Details</string>
     <string name="back_button">Back</string>
-    <string name="label_id">ID</string>
-    <string name="label_type">Type</string>
+    <string name="back_symbol">Back</string>
+    <string name="label_type">Type:</string>
     <string name="label_description">Description</string>
+    <string name="label_trivia">Trivia</string>
+    <string name="label_detailed_info">Detailed Information</string>
     <string name="error_not_found">Entity not found</string>
+    <string name="theme_light">Light</string>
+    <string name="theme_dark">Dark</string>
+    <string name="lang_ru">RU</string>
+    <string name="lang_en">EN</string>
 </resources>

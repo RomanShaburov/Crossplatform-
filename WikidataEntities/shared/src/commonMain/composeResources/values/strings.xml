@@ -3,8 +3,14 @@
     <string name="list_title">Каталог Wikidata</string>
     <string name="details_title">Детали сущности</string>
     <string name="back_button">Назад</string>
-    <string name="label_id">ID</string>
-    <string name="label_type">Тип</string>
+    <string name="back_symbol">Назад</string>
+    <string name="label_type">Тип:</string>
     <string name="label_description">Описание</string>
+    <string name="label_trivia">Интересный факт</string>
+    <string name="label_detailed_info">Подробности</string>
     <string name="error_not_found">Сущность не найдена</string>
+    <string name="theme_light">Светлая</string>
+    <string name="theme_dark">Темная</string>
+    <string name="lang_ru">RU</string>
+    <string name="lang_en">EN</string>
 </resources>

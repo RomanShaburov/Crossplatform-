@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import org.example.project.data.repository.MockWikidataRepository
+import org.example.project.data.MockWikidataRepository
 import org.example.project.domain.model.WikidataEntity
 
 class WikidataViewModel : ViewModel() {

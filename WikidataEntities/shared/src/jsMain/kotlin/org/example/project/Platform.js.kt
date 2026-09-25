@@ -7,5 +7,4 @@ class JSPlatform : Platform {
 actual fun getPlatform(): Platform = JSPlatform()
 
 actual fun changeLanguageAtRuntime(lang: String) {
-    // На JS оставляем заглушку для автономного каркаса
 }
