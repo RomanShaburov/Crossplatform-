@@ -19,12 +19,9 @@ import wikidataentities.shared.generated.resources.*
 
 @Composable
 fun App() {
-    // Настройки сессии: живут в памяти и на диск не пишутся (сохранение — веха В3).
     var darkTheme by remember { mutableStateOf(false) }
     var language by remember { mutableStateOf(AppLanguage.RU) }
 
-    // Создаются один раз и выше ProvideAppLocale: смена языка пересоздаёт
-    // экраны, но стек и данные при этом остаются прежними.
     val repository: WikidataRepository = remember { MockWikidataRepository() }
     val navigator = remember { Navigator() }
 

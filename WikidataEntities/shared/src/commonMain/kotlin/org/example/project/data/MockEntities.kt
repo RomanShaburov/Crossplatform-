@@ -3,18 +3,6 @@ package org.example.project.data
 import org.example.project.domain.model.ClaimValue
 import org.example.project.domain.model.WikidataEntity
 
-/**
- * Моки первой вехи: сущности Wikidata, переписанные руками по ответу `wbgetentities`.
- *
- * Единственное место в проекте с предметными данными. В В2 этот файл заменяется
- * ответом сети, всё остальное меняться не должно.
- *
- * В утверждениях API отдаёт ссылки на другие сущности только идентификатором (`Q5`).
- * Если такая сущность есть в моках, на экране показывается её подпись («human»),
- * иначе — сам идентификатор. В В2 подписи к ним подтянет сеть.
- *
- * Тексты на английском сознательно: локализуется интерфейс, а не данные каталога.
- */
 val mockEntities: List<WikidataEntity> = listOf(
     WikidataEntity(
         id = "Q42",
@@ -269,8 +257,6 @@ val mockEntities: List<WikidataEntity> = listOf(
         enwikiTitle = "Capital city",
     ),
 )
-
-// Короткие конструкторы значений: повторяют формат API, чтобы моки не разрастались.
 
 private fun item(id: String) = ClaimValue.Item(id)
 

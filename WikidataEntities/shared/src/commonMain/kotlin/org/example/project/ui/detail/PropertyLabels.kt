@@ -5,10 +5,6 @@ import org.jetbrains.compose.resources.StringResource
 import org.jetbrains.compose.resources.stringResource
 import wikidataentities.shared.generated.resources.*
 
-/**
- * Подписи свойств Wikidata. Идентификатор свойства (`P31`) приходит из API,
- * а подпись к нему — часть интерфейса, поэтому она в ресурсах и переводится.
- */
 private val propertyNames: Map<String, StringResource> = mapOf(
     "P31" to Res.string.property_instance_of,
     "P279" to Res.string.property_subclass_of,
@@ -31,7 +27,6 @@ private val propertyNames: Map<String, StringResource> = mapOf(
     "P856" to Res.string.property_website,
 )
 
-/** Подпись свойства на языке интерфейса; для незнакомого свойства — его идентификатор. */
 @Composable
 fun propertyLabel(propertyId: String): String =
     propertyNames[propertyId]?.let { stringResource(it) } ?: propertyId

@@ -18,10 +18,6 @@ import org.example.project.ui.model.EntityDetailUi
 import org.jetbrains.compose.resources.stringResource
 import wikidataentities.shared.generated.resources.*
 
-/**
- * Экран детали. Как и список, получает состояние, а не ViewModel.
- * Колбэка нет: на экране нечего нажимать, «назад» — в общей шапке.
- */
 @Composable
 fun EntityDetailScreen(
     state: EntityDetailState,
@@ -117,7 +113,6 @@ private fun Section(
     }
 }
 
-/** Строка свойства: подпись и значения через запятую. */
 @Composable
 private fun ClaimRow(claim: ClaimUi) {
     Column(

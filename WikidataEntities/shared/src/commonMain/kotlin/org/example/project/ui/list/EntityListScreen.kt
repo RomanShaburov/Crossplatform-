@@ -18,10 +18,6 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import org.example.project.ui.model.EntityCardUi
 
-/**
- * Экран списка. Получает только состояние и колбэк — не ViewModel целиком:
- * так компилятор Compose может пропускать перерисовку, когда состояние не изменилось.
- */
 @Composable
 fun EntityListScreen(
     state: EntityListState,

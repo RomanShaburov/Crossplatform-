@@ -16,12 +16,6 @@ import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import wikidataentities.shared.generated.resources.*
 
-/**
- * Шапка, общая для всех экранов: «назад», заголовок, переключатели темы и языка.
- * Одна на приложение — поэтому переключатели не надо протаскивать в каждый экран.
- *
- * @param onBack null — кнопки «назад» нет (мы на первом экране).
- */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AppScaffold(
@@ -49,8 +43,6 @@ fun AppScaffold(
                     }
                 },
                 actions = {
-                    // На кнопке — код текущего языка. Он сам лежит в ресурсах:
-                    // «RU» в values/, «EN» в values-en/.
                     TextButton(onClick = onToggleLanguage) {
                         Text(stringResource(Res.string.language_code))
                     }

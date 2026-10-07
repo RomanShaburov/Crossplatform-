@@ -7,20 +7,10 @@ import kotlinx.coroutines.flow.asStateFlow
 import org.example.project.domain.repository.WikidataRepository
 import org.example.project.ui.model.toCardUi
 
-/**
- * Единственное место, где меняется состояние списка.
- *
- * Наружу отдаётся [StateFlow] только на чтение, изменить состояние можно лишь
- * намерением через [onIntent]. Отсюда однонаправленность: вниз состояние, вверх намерения.
- *
- * @param onOpenEntity переход на деталь. ViewModel не знает, как устроена навигация, —
- * ей дают функцию, которую надо вызвать.
- */
 class EntityListViewModel(
     repository: WikidataRepository,
     private val onOpenEntity: (String) -> Unit,
 ) : ViewModel() {
-
     private val _state = MutableStateFlow(
         EntityListState(items = repository.getEntities().map { it.toCardUi(repository) }),
     )
