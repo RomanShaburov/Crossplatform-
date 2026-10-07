@@ -1,41 +1,32 @@
-This is a Kotlin Multiplatform project targeting Android, Web, Desktop (JVM).
+# Сущности Wikidata — каркас на Compose Multiplatform (ЛР1)
 
-* [/shared](./shared/src) is for code that will be shared across your Compose Multiplatform applications.
-  It contains several subfolders:
-  - [commonMain](./shared/src/commonMain/kotlin) is for code that’s common for all targets.
-  - Other folders are for Kotlin code that will be compiled for only the platform indicated in the folder name.
-    For example, if you want to use Apple’s CoreCrypto for the iOS part of your Kotlin app,
-    the [iosMain](./shared/src/iosMain/kotlin) folder would be the right place for such calls.
-    Similarly, if you want to edit the Desktop (JVM) specific part, the [jvmMain](./shared/src/jvmMain/kotlin)
-    folder is the appropriate location.
+Каталог сущностей Wikidata: список и деталь, переключение темы и языка интерфейса.
+Данные — моки по форме ответа `wbgetentities`, сети в этой вехе нет.
 
-### Running the apps
+В этой вехе один таргет — **desktop (JVM)**.
 
-Use the run configurations provided by the run widget in your IDE's toolbar. You can also use these commands and options:
+## Запуск
 
-- Android app: `./gradlew :androidApp:assembleDebug`
-- Desktop app:
-  - Hot reload: `./gradlew :desktopApp:hotRun --auto`
-  - Standard run: `./gradlew :desktopApp:run`
-- Web app:
-  - Wasm target (faster, modern browsers): `./gradlew :webApp:wasmJsBrowserDevelopmentRun`
-  - JS target (slower, supports older browsers): `./gradlew :webApp:jsBrowserDevelopmentRun`
+```bash
+./gradlew :desktopApp:run
+```
 
-### Running tests
+## Проверки
 
-Use the run button in your IDE's editor gutter, or run tests using Gradle tasks:
+```bash
+python tools/check-strings.py          # ключи строк совпадают в обеих локалях
+./gradlew :shared:compileKotlinJvm     # отчёт компилятора Compose появится в
+                                       # shared/build/compose_compiler/shared-composables.txt
+```
 
-- Android tests: `./gradlew :shared:testAndroidHostTest`
-- Desktop tests: `./gradlew :shared:jvmTest`
-- Web tests:
-  - Wasm target: `./gradlew :shared:wasmJsTest`
-  - JS target: `./gradlew :shared:jsTest`
+## Устройство
 
----
-
-Learn more about [Kotlin Multiplatform](https://www.jetbrains.com/help/kotlin-multiplatform-dev/get-started.html),
-[Compose Multiplatform](https://kotlinlang.org/compose-multiplatform/),
-[Kotlin/Wasm](https://kotl.in/wasm/)…
-
-We would appreciate your feedback on Compose/Web and Kotlin/Wasm in the public Slack channel [#compose-web](https://slack-chats.kotlinlang.org/c/compose-web).
-If you face any issues, please report them on [YouTrack](https://youtrack.jetbrains.com/newIssue?project=CMP).
+| Путь (`shared/src/commonMain/kotlin/org/example/project/`) | Что это |
+|---|---|
+| `domain/model/WikidataEntity.kt` | модель сущности, поля как в ответе API |
+| `data/MockEntities.kt` | моки — единственное место с предметными данными |
+| `ui/list/`, `ui/detail/` | экраны: состояние (State), намерения (Intent), ViewModel, экран |
+| `ui/navigation/` | маршруты, стек экранов, NavDisplay с анимациями |
+| `ui/locale/` | смена языка интерфейса (реализация — в `jvmMain`) |
+| `ui/components/AppScaffold.kt` | общая шапка: назад, заголовок, язык, тема |
+| `composeResources/values`, `values-en` | подписи интерфейса, две локали |
