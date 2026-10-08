@@ -227,6 +227,24 @@ val mockEntities: List<WikidataEntity> = listOf(
         enwikiTitle = "Earth",
     ),
     WikidataEntity(
+        id = "Q544",
+        label = "Solar System",
+        description = "planetary system of the Sun",
+        aliases = listOf("Sol system"),
+        claims = mapOf(
+            "P361" to listOf(item("Q321")),
+        ),
+        enwikiTitle = "Solar System",
+    ),
+    WikidataEntity(
+        id = "Q634",
+        label = "planet",
+        description = "celestial body directly orbiting a star or stellar remnant",
+        aliases = emptyList(),
+        claims = emptyMap(),
+        enwikiTitle = "Planet",
+    ),
+    WikidataEntity(
         id = "Q5",
         label = "human",
         description = "species of hominid",
