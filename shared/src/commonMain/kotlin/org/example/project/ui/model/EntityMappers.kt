@@ -28,11 +28,13 @@ fun WikidataEntity.toDetailUi(repository: WikidataRepository): EntityDetailUi =
         enwikiTitle = enwikiTitle,
     )
 
-private fun ClaimValue.toUi(repository: WikidataRepository): String = when (this) {
-    is ClaimValue.Item -> repository.getEntityById(id)?.label ?: id
-    is ClaimValue.Time -> formatTime(time, precision)
-    is ClaimValue.Quantity -> formatAmount(amount)
-    is ClaimValue.Text -> value
+private fun ClaimValue.toUi(repository: WikidataRepository): ClaimValueUi = when (this) {
+    is ClaimValue.Item -> repository.getEntityById(id)
+        ?.let { ClaimValueUi.Link(id, it.label) }
+        ?: ClaimValueUi.Plain(id)
+    is ClaimValue.Time -> ClaimValueUi.Plain(formatTime(time, precision))
+    is ClaimValue.Quantity -> ClaimValueUi.Plain(formatAmount(amount))
+    is ClaimValue.Text -> ClaimValueUi.Plain(value)
 }
 
 private fun formatTime(time: String, precision: Int): String {

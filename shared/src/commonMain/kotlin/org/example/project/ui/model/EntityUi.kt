@@ -23,5 +23,11 @@ data class EntityDetailUi(
 @Immutable
 data class ClaimUi(
     val propertyId: String,
-    val values: List<String>,
+    val values: List<ClaimValueUi>,
 )
+
+@Immutable
+sealed interface ClaimValueUi {
+    data class Link(val entityId: String, val label: String) : ClaimValueUi
+    data class Plain(val text: String) : ClaimValueUi
+}

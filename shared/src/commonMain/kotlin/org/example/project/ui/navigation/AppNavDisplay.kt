@@ -46,10 +46,10 @@ fun AppNavDisplay(
             }
             entry<AppRoute.EntityDetails> { route ->
                 val viewModel = viewModel(key = "details-${route.entityId}") {
-                    EntityDetailViewModel(route.entityId, repository)
+                    EntityDetailViewModel(route.entityId, repository, onOpenEntity = navigator::openEntity)
                 }
                 val state by viewModel.state.collectAsStateWithLifecycle()
-                EntityDetailScreen(state = state)
+                EntityDetailScreen(state = state, onIntent = viewModel::onIntent)
             }
         },
     )

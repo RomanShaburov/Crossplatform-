@@ -8,3 +8,7 @@ sealed interface EntityDetailState {
     data class Content(val entity: EntityDetailUi) : EntityDetailState
     data class NotFound(val entityId: String) : EntityDetailState
 }
+
+sealed interface EntityDetailIntent {
+    data class RelatedEntityClicked(val id: String) : EntityDetailIntent
+}
