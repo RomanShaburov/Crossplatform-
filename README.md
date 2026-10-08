@@ -1,32 +1,36 @@
-# Сущности Wikidata — каркас на Compose Multiplatform (ЛР1)
+# Сущности Wikidata
 
-Каталог сущностей Wikidata: список и деталь, переключение темы и языка интерфейса.
-Данные — моки по форме ответа `wbgetentities`, сети в этой вехе нет.
+Каталог сущностей [Wikidata](https://www.wikidata.org) на Compose Multiplatform.
 
-В этой вехе один таргет — **desktop (JVM)**.
+## Предметная область
+
+Wikidata — открытая база знаний, где каждая сущность (человек, страна, город, произведение) имеет идентификатор вида `Q42` и набор утверждений: свойство `P31` «экземпляр», `P17` «страна», `P569` «дата рождения» и т. д. Значение утверждения может быть ссылкой на другую сущность, датой, числом или строкой.
+
+Приложение показывает:
+
+- **список** сущностей с поиском по названию и псевдонимам;
+- **карточку** сущности: описание, псевдонимы, свойства и статья в Википедии. Если значение свойства — другая сущность из каталога (`instance of`, `part of`, страна, столица…), на неё можно перейти, «назад» возвращает по одному экрану.
+
+Интерфейс на русском и английском, светлая и тёмная тема. Данные пока на моках (20 сущностей) с теми же полями, что приходят из API `wbgetentities`; в следующей вехе их заменит сеть.
 
 ## Запуск
+
+Desktop:
 
 ```bash
 ./gradlew :desktopApp:run
 ```
 
+Браузер (Wasm):
+
+```bash
+./gradlew :webApp:wasmJsBrowserDevelopmentRun
+```
+
 ## Проверки
 
 ```bash
-python tools/check-strings.py          # ключи строк совпадают в обеих локалях
-./gradlew :shared:compileKotlinJvm     # отчёт компилятора Compose появится в
-                                       # shared/build/compose_compiler/shared-composables.txt
+python tools/check-strings.py
 ```
 
-## Устройство
-
-| Путь (`shared/src/commonMain/kotlin/org/example/project/`) | Что это |
-|---|---|
-| `domain/model/WikidataEntity.kt` | модель сущности, поля как в ответе API |
-| `data/MockEntities.kt` | моки — единственное место с предметными данными |
-| `ui/list/`, `ui/detail/` | экраны: состояние (State), намерения (Intent), ViewModel, экран |
-| `ui/navigation/` | маршруты, стек экранов, NavDisplay с анимациями |
-| `ui/locale/` | смена языка интерфейса (реализация — в `jvmMain`) |
-| `ui/components/AppScaffold.kt` | общая шапка: назад, заголовок, язык, тема |
-| `composeResources/values`, `values-en` | подписи интерфейса, две локали |
+Отчёт компилятора Compose после сборки: `shared/build/compose_compiler/shared-composables.txt`.
