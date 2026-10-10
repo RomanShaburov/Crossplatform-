@@ -1,0 +1,34 @@
+<resources>
+    <string name="app_name">Wikidata Entities</string>
+    <string name="list_title">Wikidata Catalog</string>
+    <string name="details_title">Entity</string>
+    <string name="action_back">Back</string>
+    <string name="action_toggle_theme">Toggle theme</string>
+    <string name="language_code">EN</string>
+    <string name="label_aliases">Also known as</string>
+    <string name="label_properties">Properties</string>
+    <string name="label_wikipedia">Wikipedia article</string>
+    <string name="error_not_found">Entity %1$s not found</string>
+    <string name="property_instance_of">Instance of</string>
+    <string name="property_subclass_of">Subclass of</string>
+    <string name="property_country">Country</string>
+    <string name="property_citizenship">Country of citizenship</string>
+    <string name="property_place_of_birth">Place of birth</string>
+    <string name="property_date_of_birth">Date of birth</string>
+    <string name="property_date_of_death">Date of death</string>
+    <string name="property_occupation">Occupation</string>
+    <string name="property_notable_work">Notable work</string>
+    <string name="property_creator">Creator</string>
+    <string name="property_location">Location</string>
+    <string name="property_admin_unit">Administrative unit</string>
+    <string name="property_capital">Capital</string>
+    <string name="property_population">Population</string>
+    <string name="property_inception">Inception</string>
+    <string name="property_part_of">Part of</string>
+    <string name="property_parent_body">Parent astronomical body</string>
+    <string name="property_inventor">Discoverer or inventor</string>
+    <string name="property_website">Official website</string>
+    <string name="search_hint">Search by name</string>
+    <string name="action_clear_search">Clear search</string>
+    <string name="search_nothing_found">Nothing found for «%1$s»</string>
+</resources>
