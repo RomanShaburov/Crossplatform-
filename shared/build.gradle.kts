@@ -14,7 +14,7 @@ plugins {
 kotlin {
     android {
         namespace = "org.example.project.shared"
-        compileSdk = 36
+        compileSdk = 37
         minSdk = 26
         androidResources.enable = true
     }
@@ -69,6 +69,10 @@ require(apiUrl.startsWith("https://") && !apiUrl.contains('"') && !apiUrl.contai
 buildkonfig {
     packageName = "org.example.project.data.network"
     defaultConfigs { buildConfigField(STRING, "API_URL", apiUrl) }
+}
+
+tasks.withType<Test>().configureEach {
+    systemProperty("wikidata.live", providers.gradleProperty("wikidata.live").getOrElse("false"))
 }
 
 composeCompiler {
