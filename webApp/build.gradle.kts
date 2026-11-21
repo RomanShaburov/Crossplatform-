@@ -12,9 +12,6 @@ val copyNetworkWorker by tasks.registering(Copy::class) {
     from(workerBundle) { include("network-worker.js") }
     into(layout.buildDirectory.dir("generated/workerResources"))
 }
-kotlin.sourceSets.named("webMain") {
-    resources.srcDir(copyNetworkWorker.map { it.destinationDir })
-}
 
 kotlin {
     js {
@@ -29,6 +26,7 @@ kotlin {
     }
 
     sourceSets {
+        webMain { resources.srcDir(copyNetworkWorker.map { it.destinationDir }) }
         commonMain.dependencies {
             implementation(project(":shared"))
 

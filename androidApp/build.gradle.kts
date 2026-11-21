@@ -5,7 +5,7 @@ plugins {
 
 android {
     namespace = "org.example.project.android"
-    compileSdk = 36
+    compileSdk = 37
     defaultConfig {
         applicationId = "org.example.project.wikidata"
         minSdk = 26

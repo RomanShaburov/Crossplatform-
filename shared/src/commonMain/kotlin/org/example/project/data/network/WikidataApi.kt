@@ -34,11 +34,12 @@ internal class WikidataApi(
 
     private suspend fun request(vararg parameters: Pair<String, String>): ApiResponse {
         try {
-            val text = client.get(endpoint) {
+            val response = client.get(endpoint) {
                 parameter("format", "json")
                 parameter("origin", "*") // Wikidata CORS for JS and wasm.
                 parameters.forEach { (key, value) -> parameter(key, value) }
-            }.bodyAsText()
+            }
+            val text = withContext(Dispatchers.Default) { response.bodyAsText() }
             return decodeApiResponse(text).also {
                 if (it.error != null) throw LoadException(LoadFailure.SERVER)
             }
