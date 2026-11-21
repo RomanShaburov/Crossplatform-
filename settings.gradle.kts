@@ -34,3 +34,5 @@ plugins {
 include(":desktopApp")
 include(":shared")
 include(":webApp")
+include(":androidApp")
+include(":networkWorker")

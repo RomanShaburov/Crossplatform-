@@ -6,6 +6,16 @@ plugins {
     alias(libs.plugins.composeCompiler)
 }
 
+val workerBundle = project(":networkWorker").layout.buildDirectory.dir("dist/js/productionExecutable")
+val copyNetworkWorker by tasks.registering(Copy::class) {
+    dependsOn(":networkWorker:jsBrowserDistribution")
+    from(workerBundle) { include("network-worker.js") }
+    into(layout.buildDirectory.dir("generated/workerResources"))
+}
+kotlin.sourceSets.named("webMain") {
+    resources.srcDir(copyNetworkWorker.map { it.destinationDir })
+}
+
 kotlin {
     js {
         browser()
