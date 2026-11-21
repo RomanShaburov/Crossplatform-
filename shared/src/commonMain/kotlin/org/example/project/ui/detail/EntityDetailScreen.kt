@@ -17,6 +17,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import org.example.project.ui.list.EntityPlaceholder
+import org.example.project.ui.components.LoadingStatus
+import org.example.project.ui.components.LoadError
 import org.example.project.ui.model.ClaimUi
 import org.example.project.ui.model.ClaimValueUi
 import org.example.project.ui.model.EntityDetailUi
@@ -30,6 +32,8 @@ fun EntityDetailScreen(
     modifier: Modifier = Modifier,
 ) {
     when (state) {
+        EntityDetailState.Loading -> LoadingStatus(modifier)
+        is EntityDetailState.Error -> LoadError(state.failure, onRetry = { onIntent(EntityDetailIntent.Retry) }, modifier = modifier)
         is EntityDetailState.Content -> EntityDetailContent(
             entity = state.entity,
             onEntityClick = { id -> onIntent(EntityDetailIntent.RelatedEntityClicked(id)) },

@@ -5,7 +5,11 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import org.example.project.data.MockWikidataRepository
+import org.example.project.data.NetworkWikidataRepository
+import org.example.project.data.network.WikidataApi
+import org.example.project.data.network.BuildKonfig
+import org.example.project.data.network.createHttpClient
+import androidx.compose.runtime.DisposableEffect
 import org.example.project.domain.repository.WikidataRepository
 import org.example.project.ui.components.AppScaffold
 import org.example.project.ui.locale.AppLanguage
@@ -22,7 +26,9 @@ fun App() {
     var darkTheme by remember { mutableStateOf(false) }
     var language by remember { mutableStateOf(AppLanguage.RU) }
 
-    val repository: WikidataRepository = remember { MockWikidataRepository() }
+    val client = remember { createHttpClient() }
+    DisposableEffect(client) { onDispose { client.close() } }
+    val repository: WikidataRepository = remember { NetworkWikidataRepository(WikidataApi(client, BuildKonfig.API_URL)) }
     val navigator = remember { Navigator() }
 
     AppTheme(darkTheme = darkTheme) {

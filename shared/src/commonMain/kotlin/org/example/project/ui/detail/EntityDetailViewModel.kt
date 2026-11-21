@@ -1,27 +1,54 @@
 package org.example.project.ui.detail
 
 import androidx.lifecycle.ViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.*
+import kotlinx.coroutines.flow.*
+import org.example.project.domain.model.ClaimValue
+import org.example.project.domain.repository.LoadException
 import org.example.project.domain.repository.WikidataRepository
 import org.example.project.ui.model.toDetailUi
 
 class EntityDetailViewModel(
-    entityId: String,
-    repository: WikidataRepository,
+    private val entityId: String,
+    private val repository: WikidataRepository,
     private val onOpenEntity: (String) -> Unit,
 ) : ViewModel() {
-    private val _state = MutableStateFlow(
-        repository.getEntityById(entityId)
-            ?.let { EntityDetailState.Content(it.toDetailUi(repository)) }
-            ?: EntityDetailState.NotFound(entityId),
-    )
+    private val _state = MutableStateFlow<EntityDetailState>(EntityDetailState.Loading)
     val state: StateFlow<EntityDetailState> = _state.asStateFlow()
+    private var request: Job? = null
+
+    init { load() }
 
     fun onIntent(intent: EntityDetailIntent) {
         when (intent) {
             is EntityDetailIntent.RelatedEntityClicked -> onOpenEntity(intent.id)
+            EntityDetailIntent.Retry -> if (_state.value !is EntityDetailState.Loading) load()
+        }
+    }
+
+    private fun load() {
+        request?.cancel()
+        _state.value = EntityDetailState.Loading
+        request = viewModelScope.launch {
+            try {
+                val entity = repository.getEntityById(entityId)
+                if (entity == null) {
+                    _state.value = EntityDetailState.NotFound(entityId)
+                    return@launch
+                }
+                val references = withContext(Dispatchers.Default) {
+                    entity.claims.values.flatten().filterIsInstance<ClaimValue.Item>().map { it.id }
+                }
+                val labels = repository.getLabels(references)
+                val ui = withContext(Dispatchers.Default) { entity.toDetailUi(labels) }
+                ensureActive()
+                _state.value = EntityDetailState.Content(ui)
+            } catch (cancelled: CancellationException) {
+                throw cancelled
+            } catch (failure: LoadException) {
+                _state.value = EntityDetailState.Error(failure.failure)
+            }
         }
     }
 }

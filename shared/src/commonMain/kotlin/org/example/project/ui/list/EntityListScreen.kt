@@ -19,6 +19,9 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
+import androidx.compose.material3.Button
+import org.example.project.ui.components.LoadingStatus
+import org.example.project.ui.components.LoadError
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -55,6 +58,15 @@ fun EntityListScreen(
                         item = item,
                         onClick = { onIntent(EntityListIntent.EntityClicked(item.id)) },
                     )
+                }
+                item(key = "load-status") {
+                    when {
+                        state.loading -> LoadingStatus()
+                        state.failure != null -> LoadError(state.failure, onRetry = { onIntent(EntityListIntent.Retry) })
+                        state.nextOffset != null -> Button(onClick = { onIntent(EntityListIntent.LoadMore) }) {
+                            Text(stringResource(Res.string.action_load_more))
+                        }
+                    }
                 }
             }
         }

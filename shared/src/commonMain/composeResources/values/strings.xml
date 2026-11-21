@@ -31,4 +31,10 @@
     <string name="search_hint">Поиск по названию</string>
     <string name="action_clear_search">Очистить поиск</string>
     <string name="search_nothing_found">По запросу «%1$s» ничего не найдено</string>
+    <string name="status_loading">Загрузка…</string>
+    <string name="error_network">Не удалось подключиться. Проверьте интернет.</string>
+    <string name="error_server">Wikidata временно недоступна. Попробуйте ещё раз.</string>
+    <string name="error_response">Не удалось разобрать ответ Wikidata.</string>
+    <string name="action_retry">Повторить</string>
+    <string name="action_load_more">Загрузить ещё</string>
 </resources>
