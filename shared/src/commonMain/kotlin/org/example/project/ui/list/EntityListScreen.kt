@@ -45,7 +45,11 @@ fun EntityListScreen(
             onQueryChange = { onIntent(EntityListIntent.QueryChanged(it)) },
             modifier = Modifier.fillMaxWidth().padding(start = 16.dp, top = 16.dp, end = 16.dp),
         )
-        if (state.nothingFound) {
+        if (state.items.isEmpty() && state.loading) {
+            LoadingStatus()
+        } else if (state.items.isEmpty() && state.failure != null) {
+            LoadError(state.failure, onRetry = { onIntent(EntityListIntent.Retry) })
+        } else if (state.nothingFound) {
             NothingFound(query = state.query, modifier = Modifier.fillMaxSize())
         } else {
             LazyColumn(
