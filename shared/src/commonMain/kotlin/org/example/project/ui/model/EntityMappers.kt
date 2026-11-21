@@ -36,14 +36,20 @@ private fun ClaimValue.toUi(labels: Map<String, String>): ClaimValueUi = when (t
 
 private fun formatTime(time: String, precision: Int): String {
     val date = time.removePrefix("+").substringBefore('T')
+    val year = date.removePrefix("-").substringBefore('-').let {
+        if (date.startsWith('-')) "-$it" else it
+    }
     return when {
         precision >= 11 -> date
         precision == 10 -> date.substringBeforeLast('-')
-        else -> date.substringBefore('-')
+        else -> year
     }
 }
 
 private fun formatAmount(amount: String): String {
-    val digits = amount.removePrefix("+")
-    return digits.reversed().chunked(3).joinToString(" ").reversed()
+    val number = amount.removePrefix("+")
+    val sign = if (number.startsWith('-')) "-" else ""
+    val parts = number.removePrefix("-").split('.', limit = 2)
+    val integer = parts[0].reversed().chunked(3).joinToString(" ").reversed()
+    return sign + integer + if (parts.size == 2) ".${parts[1]}" else ""
 }
