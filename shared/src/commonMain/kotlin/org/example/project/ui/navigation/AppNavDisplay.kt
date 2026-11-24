@@ -1,6 +1,5 @@
 package org.example.project.ui.navigation
 
-import androidx.compose.animation.AnimatedContentTransitionScope
 import androidx.compose.animation.ContentTransform
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
@@ -55,7 +54,7 @@ fun AppNavDisplay(
     )
 }
 
-private fun AnimatedContentTransitionScope<*>.slide(forward: Boolean): ContentTransform {
+private fun slide(forward: Boolean): ContentTransform {
     val sign = if (forward) 1 else -1
     val enter = slideInHorizontally(tween(TRANSITION_MS)) { width -> sign * width } + fadeIn(tween(TRANSITION_MS))
     val exit = slideOutHorizontally(tween(TRANSITION_MS)) { width -> -sign * width } + fadeOut(tween(TRANSITION_MS))
