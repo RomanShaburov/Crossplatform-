@@ -24,6 +24,7 @@ data class EntityDetailUi(
 data class ClaimUi(
     val propertyId: String,
     val values: List<ClaimValueUi>,
+    val propertyLabel: String? = null,
 )
 
 @Immutable

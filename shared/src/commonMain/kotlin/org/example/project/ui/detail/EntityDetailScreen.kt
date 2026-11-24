@@ -141,7 +141,7 @@ private fun ClaimRow(
         verticalArrangement = Arrangement.spacedBy(4.dp),
     ) {
         Text(
-            text = propertyLabel(claim.propertyId),
+            text = propertyLabel(claim.propertyId, claim.propertyLabel),
             style = MaterialTheme.typography.labelLarge,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
         )

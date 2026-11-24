@@ -40,7 +40,15 @@ class EntityDetailViewModel(
                 val references = withContext(Dispatchers.Default) {
                     entity.claims.values.flatten().filterIsInstance<ClaimValue.Item>().map { it.id }
                 }
-                val labels = repository.getLabels(references)
+                val propertyIds = entity.claims.keys.filterNot(::hasLocalPropertyLabel)
+                val propertyLabels = async {
+                    try {
+                        if (propertyIds.isEmpty()) emptyMap() else repository.getLabels(propertyIds)
+                    } catch (_: LoadException) {
+                        emptyMap()
+                    }
+                }
+                val labels = repository.getLabels(references) + propertyLabels.await()
                 val ui = withContext(Dispatchers.Default) { entity.toDetailUi(labels) }
                 ensureActive()
                 _state.value = EntityDetailState.Content(ui)

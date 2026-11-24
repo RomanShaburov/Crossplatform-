@@ -22,7 +22,7 @@ fun WikidataEntity.toDetailUi(labels: Map<String, String>): EntityDetailUi =
         description = description,
         aliases = aliases,
         claims = claims.map { (propertyId, values) ->
-            ClaimUi(propertyId, values.map { it.toUi(labels) })
+            ClaimUi(propertyId, values.map { it.toUi(labels) }, propertyLabel = labels[propertyId])
         },
         enwikiTitle = enwikiTitle,
     )

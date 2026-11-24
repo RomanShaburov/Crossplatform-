@@ -15,6 +15,7 @@ class LiveWikidataTest {
             assertEquals("Douglas Adams", entity.label)
             assertTrue(entity.claims.isNotEmpty())
             assertEquals("human", repository.getLabels(listOf("Q5"))["Q5"])
+            assertEquals("lowest point", repository.getLabels(listOf("P1589"))["P1589"])
             val first = repository.getEntities("Earth", 0)
             assertTrue(first.items.isNotEmpty())
             assertTrue(first.items.any { it.id == "Q2" })

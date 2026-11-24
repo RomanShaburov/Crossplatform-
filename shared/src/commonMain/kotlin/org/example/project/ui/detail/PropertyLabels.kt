@@ -27,6 +27,8 @@ private val propertyNames: Map<String, StringResource> = mapOf(
     "P856" to Res.string.property_website,
 )
 
+internal fun hasLocalPropertyLabel(propertyId: String): Boolean = propertyId in propertyNames
+
 @Composable
-fun propertyLabel(propertyId: String): String =
-    propertyNames[propertyId]?.let { stringResource(it) } ?: propertyId
+internal fun propertyLabel(propertyId: String, remoteLabel: String?): String =
+    propertyNames[propertyId]?.let { stringResource(it) } ?: remoteLabel ?: propertyId

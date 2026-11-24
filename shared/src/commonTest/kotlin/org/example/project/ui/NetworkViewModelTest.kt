@@ -3,6 +3,7 @@ package org.example.project.ui
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.*
+import org.example.project.domain.model.ClaimValue
 import org.example.project.domain.model.WikidataEntity
 import org.example.project.domain.repository.*
 import org.example.project.ui.detail.*
@@ -75,6 +76,33 @@ class NetworkViewModelTest {
         fail = false
         vm.onIntent(EntityDetailIntent.Retry)
         assertEquals(EntityDetailState.NotFound("Q1"), vm.state.first { it is EntityDetailState.NotFound })
+    }
+
+    @Test fun detailLoadsUnknownPropertyLabelsAndKeepsClaimsOnFailure() = runTest {
+        for (fail in listOf(false, true)) {
+            val repository = object : FakeRepository() {
+                override suspend fun getEntityById(id: String) = entity("Earth", id).copy(
+                    claims = mapOf(
+                        "P31" to listOf(ClaimValue.Item("Q5")),
+                        "P1589" to listOf(ClaimValue.Text("Challenger Deep")),
+                    ),
+                )
+
+                override suspend fun getLabels(ids: List<String>): Map<String, String> = when (ids) {
+                    listOf("Q5") -> mapOf("Q5" to "human")
+                    listOf("P1589") -> {
+                        if (fail) throw LoadException(LoadFailure.NETWORK)
+                        mapOf("P1589" to "lowest point")
+                    }
+                    else -> error("Unexpected labels requested: $ids")
+                }
+            }
+            val vm = EntityDetailViewModel("Q2", repository) {}
+            val state = assertIs<EntityDetailState.Content>(vm.state.first { it !is EntityDetailState.Loading })
+            val claims = state.entity.claims.associateBy { it.propertyId }
+            assertNull(claims.getValue("P31").propertyLabel)
+            assertEquals(if (fail) null else "lowest point", claims.getValue("P1589").propertyLabel)
+        }
     }
 
     private open class FakeRepository : WikidataRepository {
